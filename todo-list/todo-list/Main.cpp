@@ -22,7 +22,7 @@ void DisplayWelcome() {
 int main()
 {
 	bool isRunning = true;
-	TodoList todoList = TodoList();
+	TodoList* todoList = new TodoList();
 
 	DisplayWelcome();
 
@@ -36,7 +36,7 @@ int main()
 		}
 
 		if (IsValidPrintCommand(command)) {
-			todoList.Print();
+			todoList->Print();
 			continue;
 		}
 
@@ -46,7 +46,7 @@ int main()
 			std::string name = commandParts[1];
 			int timeInHours = std::stoi(commandParts[2]);
 
-			todoList.Add(TodoItem(name, timeInHours));
+			todoList->Add(TodoItem(name, timeInHours));
 			continue;
 		}
 
@@ -54,7 +54,7 @@ int main()
 			std::vector<std::string> commandParts = SplitByWhitespace(command);
 			std::string filePath = commandParts[1];
 
-			todoList.WriteToFile(filePath);
+			todoList->WriteToFile(filePath);
 			continue;
 		}
 
@@ -62,11 +62,13 @@ int main()
 			std::vector<std::string> commandParts = SplitByWhitespace(command);
 			std::string filePath = commandParts[1];
 
-			todoList.ReadFromFile(filePath);
+			todoList->ReadFromFile(filePath);
 			continue;
 		}
 
 		std::cout << "Looks like your syntax isn't quite right. Check command usage below, and try again." << std::endl;
 		DisplayHelp();
 	}
+
+	delete todoList;
 }
